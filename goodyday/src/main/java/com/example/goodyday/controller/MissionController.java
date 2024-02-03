@@ -22,7 +22,7 @@ public class MissionController {
 
     @PostMapping
     public ResponseEntity<Mission> createMission(@RequestBody MissionDto missionDto) {
-        Mission newMission = missionService.createMission(new Mission(missionDto.getTitle(), missionDto.getGuideText(), missionDto.getContent(), missionDto.getImageUrl(), missionDto.getLevel()), missionDto.getDeviceId());
+        Mission newMission = missionService.createMission(new Mission(missionDto.getTitle(), missionDto.getGuideText(), missionDto.getContent(), missionDto.getPhoto_url(), missionDto.getLevel()), missionDto.getDeviceId());
         return ResponseEntity.ok(newMission);
     }
 

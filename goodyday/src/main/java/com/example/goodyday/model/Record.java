@@ -13,15 +13,18 @@ public class Record {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user; // 기록만든 유저
+    @ManyToOne
+    @JoinColumn(name = "device_id", referencedColumnName = "device_id")
+    private User user;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "mission_id")
-    private Mission mission; // 기록 관련 미션 id
+    @OneToOne
+    @JoinColumn(name = "mission_title", referencedColumnName = "title")
+    private Mission mission;
 
+    @Column(name = "title")
     private String title;
+
+    @Column(name = "content")
     private String content;
 
     @Column(name = "photo_url")
@@ -41,6 +44,10 @@ public class Record {
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 
     // 생성자, 게터, 세터...

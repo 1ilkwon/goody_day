@@ -5,8 +5,8 @@ import com.example.goodyday.model.Bookmark;
 import java.util.List;
 
 public interface BookmarkService {
-    Bookmark createBookmark(Bookmark bookmark);
+    Bookmark createBookmark(String deviceId, String missionTitle);
     void deleteBookmark(Long bookmarkId);
-    List<Bookmark> getBookmarksByUserId(Long userId);
+    List<Bookmark> findBookmarksByDeviceId(String deviceId);
     // 기타 필요한 메소드
 }

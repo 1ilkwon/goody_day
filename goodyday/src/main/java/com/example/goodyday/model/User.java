@@ -17,7 +17,7 @@ public class User {
 
     private Integer age;
 
-    @Column(name = "device_id", unique = true, nullable = false)
+    @Column(name = "device_id", unique = true, nullable = false) // 수정된 부분
     private String deviceId;
 
     @Enumerated(EnumType.STRING)
@@ -30,6 +30,7 @@ public class User {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
@@ -39,6 +40,15 @@ public class User {
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
+
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//    private List<Bookmark> bookmarks = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
+//    private List<Mission> missions = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//    private List<Record> records = new ArrayList<>();
 
 
     // Enum for gender

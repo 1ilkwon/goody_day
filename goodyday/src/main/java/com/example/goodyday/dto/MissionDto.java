@@ -5,6 +5,15 @@ public class MissionDto {
     private String title;
     private String guideText;
     private String content;
+
+    public String getPhoto_url() {
+        return photo_url;
+    }
+
+    public void setPhoto_url(String photo_url) {
+        this.photo_url = photo_url;
+    }
+
     private String photo_url;
     private Integer level;
 
@@ -40,13 +49,7 @@ public class MissionDto {
         this.content = content;
     }
 
-    public String getImageUrl() {
-        return photo_url;
-    }
 
-    public void setImageUrl(String photo_url) {
-        this.photo_url = photo_url;
-    }
 
     public Integer getLevel() {
         return level;

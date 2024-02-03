@@ -15,17 +15,20 @@ public class Mission {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "device_id")
     private User creator;
 
-    @Column(name = "title")
+    @Column(name = "title" , unique = true, nullable = false)
     private String title;
+
     @Column(name = "guide")
     private String guideText;
+
     @Column(name = "content")
     private String content;
     @Column(name = "photo_url")
+
     private String photo_url;
     @Column(name = "level")
     private Integer level;
@@ -40,8 +43,12 @@ public class Mission {
 
 
 
-    public Mission(String title, String guideText, String content, String imageUrl, Integer level) {
-
+    public Mission(String title, String guideText, String content, String photo_url, Integer level) {
+        this.title = title;
+        this.guideText = guideText;
+        this.content = content;
+        this.photo_url = photo_url;
+        this.level = level;
     }
 
     public Mission() {

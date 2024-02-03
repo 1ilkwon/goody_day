@@ -1,7 +1,12 @@
 package com.example.goodyday.service;
 
+import com.example.goodyday.dto.RecordDto;
+import com.example.goodyday.model.Mission;
 import com.example.goodyday.model.Record;
+import com.example.goodyday.model.User;
+import com.example.goodyday.repository.MissionRepository;
 import com.example.goodyday.repository.RecordRepository;
+import com.example.goodyday.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,44 +15,40 @@ import java.util.List;
 
 @Service
 public class RecordServiceImpl implements RecordService {
-
     private final RecordRepository recordRepository;
+    private final UserRepository userRepository;
+    private final MissionRepository missionRepository;
 
     @Autowired
-    public RecordServiceImpl(RecordRepository recordRepository) {
+    public RecordServiceImpl(RecordRepository recordRepository, UserRepository userRepository, MissionRepository missionRepository) {
         this.recordRepository = recordRepository;
+        this.userRepository = userRepository;
+        this.missionRepository = missionRepository;
     }
 
     @Override
-    public Record createRecord(Record record) {
+    public Record createRecord(RecordDto recordDto) {
+        User user = userRepository.findByDeviceId(recordDto.getDeviceId())
+                .orElseThrow(() -> new EntityNotFoundException("User not found with device ID: " + recordDto.getDeviceId()));
+        Mission mission = missionRepository.findByTitle(recordDto.getMissionTitle())
+                .orElseThrow(() -> new EntityNotFoundException("Mission not found with title: " + recordDto.getMissionTitle()));
+
+        Record record = new Record();
+        record.setUser(user);
+        record.setMission(mission);
+        record.setTitle(recordDto.getTitle());
+        record.setContent(recordDto.getContent());
+        record.setPhotoUrl(recordDto.getPhoto_Url());
         return recordRepository.save(record);
     }
 
     @Override
-    public Record getRecordById(Long id) {
-        return recordRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Record not found with id " + id));
+    public void deleteRecord(Long recordId) {
+        recordRepository.deleteById(recordId);
     }
 
     @Override
-    public List<Record> getAllRecords() {
-        return recordRepository.findAll();
-    }
-
-    @Override
-    // 구현이 안됨
-    public Record updateRecord(Long id, Record recordDetails) {
-        return null;
-    }
-
-
-    @Override
-    public void deleteRecord(Long id) {
-        recordRepository.deleteById(id);
-    }
-
-    @Override
-    public List<Record> getRecordsByUserId(Long userId) {
-        return recordRepository.findByUserId(userId);
+    public List<Record> findRecordsByDeviceId(String deviceId) {
+        return recordRepository.findByUser_DeviceId(deviceId);
     }
 }
